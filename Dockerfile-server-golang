@@ -1,0 +1,26 @@
+FROM golang:alpine AS builder
+# FROM golang:edge AS builder
+RUN apk update && apk add --no-cache git
+WORKDIR /app
+COPY /server-golang .
+COPY /proto/todo.proto .
+# COPY . .
+
+# RUN apt install pkg-config
+# RUN apt-get update
+# RUN apt-get install libzmq3-dev
+
+# RUN apk add pkg-config
+# RUN apk update
+# RUN apk add libzmq3-dev
+
+RUN go mod download
+RUN go build -o main ./main.go
+
+FROM alpine
+WORKDIR /app
+COPY --from=builder /app/todo.proto /app
+# COPY --from=builder /server-golang/main /app
+COPY --from=builder /app/main /app
+COPY --from=builder /app/.env /app
+CMD [ "./main" ]

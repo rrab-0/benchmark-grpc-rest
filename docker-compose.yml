@@ -1,0 +1,52 @@
+version: "3.1"
+
+services:
+    # client_service:
+    #   build:
+    #     context: .
+    #     dockerfile: Dockerfile-client
+    #   ports:
+    #     - "8888:8888"
+    #   stop_signal: SIGINT
+    #   depends_on:
+    #     - envoy_service
+    #     - grpc_server_service
+
+    postgres:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_NAME}
+        ports:
+            # - ${DB_PORT}:${DB_PORT}
+            - 5433:${DB_PORT}
+
+    # http_api:
+    #   build:
+    #     context: .
+    #     dockerfile: Dockerfile-server-golang-http
+    #   restart: always
+    #   ports:
+    #       - ${DEV_HTTP_SERVER_PORT}:${DEV_HTTP_SERVER_PORT}
+    #   depends_on:
+    #       - postgres
+
+    grpc_api:
+        build:
+            context: .
+            dockerfile: Dockerfile-server-golang
+        # restart: always
+        ports:
+            - ${DEV_GRPC_SERVER_PORT}:${DEV_GRPC_SERVER_PORT}
+        depends_on:
+            - postgres
+
+    envoy_proxy:
+        build:
+            context: .
+            dockerfile: Dockerfile-envoy
+        ports:
+            - ${DEV_ENVOY_SERVER_PORT}:${DEV_ENVOY_SERVER_PORT}
+        volumes:
+            - ./envoy.yaml:/etc/envoy/envoy.yaml
