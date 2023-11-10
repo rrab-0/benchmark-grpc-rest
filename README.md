@@ -2,21 +2,34 @@
 
 Example react grpc client + golang grpc server with `envoy proxy`
 
-<!-- This is an example repo to call a grpc service from a react client, inspired by [this repo](https://github.com/norbjd/grpc-web-nginx-envoy) -->
-
-1. client is on port `8081` and calls Envoy proxy on port `8000`
-2. envoy proxy on port `8000` calls grpc service on port `50051`
-
 ## Run
 
-To run the stack:
+1. Make sure .env is configured at root directory, server-golang, and at server-golang-http.
+
+2. At root directory run to run gRPC API + envoy + postgres:
 
 ```
 docker-compose build
 docker-compose up
 ```
 
-Then, in a browser, open [`http://localhost:8081`](http://localhost:8081) (the client using gRPC-web to call Envoy).
+3. Then go to http folder to run REST API + postgres:
+
+```
+cd server-golang-http
+docker-compose build
+docker-compose up
+```
+
+4. Now you can run the client:
+
+```
+cd ../client
+npm install
+npm run start
+```
+
+<!-- Then, in a browser, open [`http://localhost:8081`](http://localhost:8081) (the client using gRPC-web to call Envoy). -->
 
 ## Generate protos
 

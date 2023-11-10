@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import axios from 'axios'
 
-const Http = () => {
+const Rest = () => {
     const createTodo = async (startTime: number) => {
         const response = await axios.post('http://localhost:8061/todo/new', {
             "title": "hello world",
@@ -21,10 +21,10 @@ const Http = () => {
         createTodo(startTime);
     }, [])
     return (
-        <div className="Http">
+        <div className="Rest">
             <p>hello</p>
         </div>
     );
 }
 
-export default Http;
+export default Rest;
