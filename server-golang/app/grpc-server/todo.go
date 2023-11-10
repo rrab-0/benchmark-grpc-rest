@@ -16,6 +16,10 @@ type todoServer struct {
 	pbTodo.UnimplementedTodoServiceServer
 }
 
+func (ts *todoServer) CreateStringMessage(ctx context.Context, in *pbTodo.StringMessage) (*pbTodo.StringMessage, error) {
+	return &pbTodo.StringMessage{Message: in.GetMessage()}, nil
+}
+
 func (ts *todoServer) CreateTodo(ctx context.Context, in *pbTodo.CreateTodoRequest) (*pbTodo.CreateTodoResponse, error) {
 	todo := in.GetActivity()
 	var dbTodo db.Todo

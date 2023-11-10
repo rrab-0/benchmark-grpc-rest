@@ -1,5 +1,5 @@
 syntax = "proto3";
-package todo.v1;
+package todo.v2;
 option go_package = "grpc-zmq-sse/app/generated-proto-todo";
 
 // import "google/api/annotations.proto";
@@ -8,6 +8,7 @@ option go_package = "grpc-zmq-sse/app/generated-proto-todo";
 service TodoService {
   // rpc CreateTodo(CreateTodoRequest) returns (stream CreateTodoResponse) {}
   rpc CreateTodo(CreateTodoRequest) returns (CreateTodoResponse) {}
+  rpc CreateString(StringMessage) returns (StringMessage) {}
 
   rpc GetTodo(GetTodoRequest) returns (GetTodoResponse) {}
 
@@ -18,6 +19,10 @@ service TodoService {
   rpc UpdateTodo(UpdateTodoRequest) returns (UpdateTodoResponse) {}
 
   // rpc TestTodo(TestTodoRequest) returns (TestTodoResponse) {}
+}
+
+message StringMessage {
+  string message = 1;
 }
 
 message Todo {

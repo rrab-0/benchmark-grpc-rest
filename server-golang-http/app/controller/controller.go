@@ -10,6 +10,22 @@ import (
 
 type TodoController struct{}
 
+func (todoCtrl *TodoController) CreateStringMessage(c *gin.Context) {
+	type stringMessageModel struct {
+		Message string `json:"message"`
+	}
+	var reqBody stringMessageModel
+
+	if err := c.ShouldBindJSON(&reqBody); err != nil {
+		c.JSON(400, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, stringMessageModel{
+		Message: reqBody.Message,
+	})
+}
+
 func (todoCtrl *TodoController) Create(c *gin.Context) {
 	var todo models.TodoHTTP
 	var reqBody models.TodoRequestBodyHTTP
@@ -36,6 +52,11 @@ func (todoCtrl *TodoController) Create(c *gin.Context) {
 func (todoCtrl *TodoController) GetAll(c *gin.Context) {
 	var todos []models.TodoHTTP
 	var reqQuery models.TodoRequestGetAll
+
+	if c.Param("limit") == "" || c.Param("not-completed") == "" {
+		reqQuery.Limit = "100"
+		reqQuery.NotCompleted = "false"
+	}
 
 	if err := c.ShouldBindQuery(&reqQuery); err != nil {
 		c.JSON(400, gin.H{"error": err.Error()})
