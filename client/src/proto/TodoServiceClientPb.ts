@@ -30,7 +30,7 @@ export class TodoServiceClient {
                credentials?: null | { [index: string]: string; },
                options?: null | { [index: string]: any; }) {
     if (!options) options = {};
-    if (!credentials) credentials = {};
+    if (!credentials) credentials = {}; 
     options['format'] = 'text';
 
     this.client_ = new grpcWeb.GrpcWebClientBase(options);

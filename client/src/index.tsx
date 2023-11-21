@@ -8,15 +8,17 @@ import Rest from "./Rest"
 import './index.css';
 
 const Parent = () => {
-  return <div className='h-full bg-black text-white'>
-    <div className='h-full gap-3 flex flex-col justify-center items-center'>
-      <p>rest vs grpc</p>
-      <div className='gap-3 flex justify-center items-center'>
-        <a href='/grpc' className='text-blue-300'>grpc</a>
-        <a href='/rest' className='text-blue-300'>rest</a>
+  return (
+    <div className='h-full bg-black text-white'>
+      <div className='h-full gap-3 flex flex-col justify-center items-center'>
+        <p>rest vs grpc</p>
+        <div className='gap-3 flex justify-center items-center'>
+          <a href='/grpc' className='text-blue-300'>grpc</a>
+          <a href='/rest' className='text-blue-300'>rest</a>
+        </div>
       </div>
     </div>
-  </div>
+  )
 }
 
 const router = createBrowserRouter([
